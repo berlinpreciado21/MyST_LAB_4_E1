@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[330]:
+# In[3]:
 
 
 import ccxt
@@ -14,17 +14,41 @@ import time
 
 # ## Fetch Ohlcv
 
-# In[442]:
+# In[9]:
 
 
 
 
 def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
     exchange_list = [
-        "kraken",
-        'ftx',
-        'currencycom',
-        'coinmate' ]
+        'aax', 
+        'ascendex', 
+        'bequant', 
+        'bibox',
+        'bigone',
+        'binance',
+        'binancecoinm',
+        'binanceus',
+        'binanceusdm', 
+        'bit2c', 
+        'bitbank',
+        'bitbay',
+        'bitbns',
+        'bitcoincom', 
+        'bitfinex',
+        'bitfinex2',
+        'bitflyer', 
+        'bitforex', 
+        'bitget', 
+        'bithumb', 
+        'bitmart',
+        'bitmex',
+        'bitopro',
+        'bitpanda', 
+        'bitrue', 
+        'bitso',
+        'bitstamp', 
+        'bitstamp1', 'bittrex', 'bitvavo', 'bkex', 'bl3p', 'blockchaincom', 'btcalpha', 'btcbox', 'btcmarkets', 'btctradeua', 'btcturk', 'buda', 'bw', 'bybit', 'bytetrade', 'cdax', 'cex', 'coinbase', 'coinbaseprime', 'coinbasepro', 'coincheck', 'coinex', 'coinfalcon', 'coinmate', 'coinone', 'coinspot', 'crex24', 'cryptocom', 'currencycom', 'delta', 'deribit', 'digifinex', 'eqonex', 'exmo', 'flowbtc', 'fmfwio', 'ftx', 'ftxus', 'gateio', 'gemini', 'hitbtc', 'hitbtc3', 'hollaex', 'huobi', 'huobijp', 'huobipro', 'idex', 'independentreserve', 'indodax', 'itbit', 'kraken', 'kucoin', 'kucoinfutures', 'kuna', 'latoken', 'lbank', 'liquid', 'luno', 'lykke', 'mercado', 'mexc', 'ndax', 'novadax', 'oceanex', 'okcoin', 'okex', 'okex5', 'okx', 'paymium', 'phemex', 'poloniex', 'probit', 'qtrade', 'ripio', 'stex', 'therock', 'tidebit', 'tidex', 'timex', 'upbit', 'vcc', 'wavesexchange', 'wazirx', 'whitebit', 'woo', 'xena', 'yobit', 'zaif', 'zb', 'zipmex', 'zonda']
     try:
         exchange = getattr(ccxt, exchange)()
     except AttributeError:
@@ -38,7 +62,6 @@ def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
         print(exchange_list)
         print("-" * 80)
         quit()
-
     data = exchange.fetch_ohlcv(symbol, timeframe, since, limit)
     header = ["Timestamp", "open", "high", "low", "close", "volume"]
     df = pd.DataFrame(data, columns=header)
@@ -57,6 +80,12 @@ def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
     df["volume"] = pd.to_numeric(df["volume"])
 
     return df
+
+
+# In[10]:
+
+
+print(fetchData("kraken","BTC/USDT","1m",30))
 
 
 # ## Funciones-Fecthc Order Book para los distintos apis
