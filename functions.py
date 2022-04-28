@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[25]:
+# In[48]:
 
 
 import ccxt
@@ -14,9 +14,7 @@ import time
 
 # ## Fetch Ohlcv
 
-# In[26]:
-
-
+# In[49]:
 
 
 def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
@@ -82,15 +80,9 @@ def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
     return df
 
 
-# In[27]:
-
-
-print(fetchData("kraken","BTC/USDT","1m",30))
-
-
 # ## Funciones-Fecthc Order Book para los distintos apis
 
-# In[28]:
+# In[52]:
 
 
 def tim():
@@ -99,7 +91,7 @@ def tim():
 tim()
 
 
-# In[29]:
+# In[53]:
 
 
 def fetch_order_book_bitso(symbol,limit):
@@ -117,13 +109,13 @@ def fetch_order_book_bitso(symbol,limit):
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
     dfk["Spread"]=(dfk.Bid - dfk.Ask)
-    
-    
+    SA=(-(((dfk.Bid+dfk.Ask)/2)/2)**2)
+    dfk["Roll Spread"]=(np.sqrt(-SA))*2
                        
     return dfk
 
 
-# In[30]:
+# In[54]:
 
 
 def fetch_order_book_ascendex(symbol,limit):
@@ -141,13 +133,13 @@ def fetch_order_book_ascendex(symbol,limit):
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
     dfk["Spread"]=(dfk.Bid - dfk.Ask)
-    
-    
-                       
+    SA=(-(((dfk.Bid+dfk.Ask)/2)/2)**2)
+    dfk["Roll Spread"]=(np.sqrt(-SA))*2
+                      
     return dfk
 
 
-# In[31]:
+# In[55]:
 
 
 def fetch_order_book_bitbay(symbol,limit):
@@ -165,7 +157,8 @@ def fetch_order_book_bitbay(symbol,limit):
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
     dfk["Spread"]=(dfk.Bid - dfk.Ask)
-    
+    SA=(-(((dfk.Bid+dfk.Ask)/2)/2)**2)
+    dfk["Roll Spread"]=(np.sqrt(-SA))*2
     
                        
     return dfk
@@ -189,38 +182,8 @@ def fetch_order_book_bitbns(symbol,limit):
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
     dfk["Spread"]=(dfk.Bid - dfk.Ask)
+    SA=(-(((dfk.Bid+dfk.Ask)/2)/2)**2)
+    dfk["Roll Spread"]=(np.sqrt(-SA))*2
     
-    
-                       
     return dfk
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
