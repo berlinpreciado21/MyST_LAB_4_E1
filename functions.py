@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[48]:
+# In[ ]:
 
 
 import ccxt
@@ -14,7 +14,7 @@ import time
 
 # ## Fetch Ohlcv
 
-# In[49]:
+# In[ ]:
 
 
 def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
@@ -82,7 +82,7 @@ def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
 
 # ## Funciones-Fecthc Order Book para los distintos apis
 
-# In[52]:
+# In[ ]:
 
 
 def tim():
@@ -91,7 +91,7 @@ def tim():
 tim()
 
 
-# In[53]:
+# In[ ]:
 
 
 def fetch_order_book_bitso(symbol,limit):
@@ -101,54 +101,7 @@ def fetch_order_book_bitso(symbol,limit):
     bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
-    dfk["Timestamp"]=bi_btc_ob_time
-    dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
-    dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
-    dfk["Total Volume"]=(dfk.AVolume + dfk.BVolume)
-    dfk["Midprice"]=((dfk.Ask + dfk.Bid)/2)
-    dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
-    dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
-    dfk["Spread"]=(dfk.Bid - dfk.Ask)
-    SA=(-(((dfk.Bid+dfk.Ask)/2)/2)**2)
-    dfk["Roll Spread"]=(np.sqrt(-SA))*2
-                       
-    return dfk
-
-
-# In[54]:
-
-
-def fetch_order_book_ascendex(symbol,limit):
-    exchange = ccxt.ascendex()
-    bi_btc_ob = exchange.fetch_order_book(symbol,limit=limit)
-    bi_btc_ob_time=bi_btc_ob["datetime"]
-    bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
-    bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
-    dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
-    dfk["Timestamp"]=bi_btc_ob_time
-    dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
-    dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
-    dfk["Total Volume"]=(dfk.AVolume + dfk.BVolume)
-    dfk["Midprice"]=((dfk.Ask + dfk.Bid)/2)
-    dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
-    dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
-    dfk["Spread"]=(dfk.Bid - dfk.Ask)
-    SA=(-(((dfk.Bid+dfk.Ask)/2)/2)**2)
-    dfk["Roll Spread"]=(np.sqrt(-SA))*2
-                      
-    return dfk
-
-
-# In[55]:
-
-
-def fetch_order_book_bitbay(symbol,limit):
-    exchange = ccxt.bitbay()
-    bi_btc_ob = exchange.fetch_order_book(symbol,limit=limit)
-    bi_btc_ob_time=bi_btc_ob["datetime"]
-    bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
-    bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
-    dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
+    dfk["Exchange"]=exchange
     dfk["Timestamp"]=bi_btc_ob_time
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
@@ -164,7 +117,64 @@ def fetch_order_book_bitbay(symbol,limit):
     return dfk
 
 
-# In[32]:
+# In[ ]:
+
+
+print(fetch_order_book_bitso("BTC/USDT",30))
+
+
+# In[ ]:
+
+
+def fetch_order_book_ascendex(symbol,limit):
+    exchange = ccxt.ascendex()
+    bi_btc_ob = exchange.fetch_order_book(symbol,limit=limit)
+    bi_btc_ob_time=bi_btc_ob["datetime"]
+    bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
+    bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
+    dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
+    dfk["Exchange"]=exchange
+    dfk["Timestamp"]=bi_btc_ob_time
+    dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
+    dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
+    dfk["Total Volume"]=(dfk.AVolume + dfk.BVolume)
+    dfk["Midprice"]=((dfk.Ask + dfk.Bid)/2)
+    dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
+    dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
+    dfk["Spread"]=(dfk.Bid - dfk.Ask)
+    SA=(-(((dfk.Bid+dfk.Ask)/2)/2)**2)
+    dfk["Roll Spread"]=(np.sqrt(-SA))*2
+                      
+    return dfk
+
+
+# In[ ]:
+
+
+def fetch_order_book_bitbay(symbol,limit):
+    exchange = ccxt.bitbay()
+    bi_btc_ob = exchange.fetch_order_book(symbol,limit=limit)
+    bi_btc_ob_time=bi_btc_ob["datetime"]
+    bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
+    bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
+    dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
+    dfk["Exchange"]=exchange
+    dfk["Timestamp"]=bi_btc_ob_time
+    dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
+    dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
+    dfk["Total Volume"]=(dfk.AVolume + dfk.BVolume)
+    dfk["Midprice"]=((dfk.Ask + dfk.Bid)/2)
+    dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
+    dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
+    dfk["Spread"]=(dfk.Bid - dfk.Ask)
+    SA=(-(((dfk.Bid+dfk.Ask)/2)/2)**2)
+    dfk["Roll Spread"]=(np.sqrt(-SA))*2
+    
+                       
+    return dfk
+
+
+# In[ ]:
 
 
 def fetch_order_book_bitbns(symbol,limit):
@@ -174,6 +184,7 @@ def fetch_order_book_bitbns(symbol,limit):
     bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
+    dfk["Exchange"]=exchange
     dfk["Timestamp"]=bi_btc_ob_time
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
