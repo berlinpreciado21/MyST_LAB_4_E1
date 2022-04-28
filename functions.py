@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
+# In[25]:
 
 
 import ccxt
@@ -14,7 +14,7 @@ import time
 
 # ## Fetch Ohlcv
 
-# In[9]:
+# In[26]:
 
 
 
@@ -63,26 +63,26 @@ def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
         print("-" * 80)
         quit()
     data = exchange.fetch_ohlcv(symbol, timeframe, since, limit)
-    header = ["Timestamp", "open", "high", "low", "close", "volume"]
+    header = ["Timestamp", "Open", "High", "Low", "Close", "Volume"]
     df = pd.DataFrame(data, columns=header)
 
     df.Timestamp = (
         df.Timestamp / 1000
     ) 
-    df["timestamp"] = pd.to_datetime(df.Timestamp, unit="s")
+    df["Timestamp"] = pd.to_datetime(df.Timestamp, unit="s")
 
-    df = df[["timestamp", "open", "high", "low", "close", "volume"]]
+    df = df[["Timestamp", "Open", "High", "Low", "Close", "Volume"]]
 
-    df["open"] = pd.to_numeric(df["open"])
-    df["high"] = pd.to_numeric(df["high"])
-    df["low"] = pd.to_numeric(df["low"])
-    df["close"] = pd.to_numeric(df["close"])
-    df["volume"] = pd.to_numeric(df["volume"])
+    df["Open"] = pd.to_numeric(df["Open"])
+    df["High"] = pd.to_numeric(df["High"])
+    df["Low"] = pd.to_numeric(df["Low"])
+    df["Close"] = pd.to_numeric(df["Close"])
+    df["Volume"] = pd.to_numeric(df["Volume"])
 
     return df
 
 
-# In[10]:
+# In[27]:
 
 
 print(fetchData("kraken","BTC/USDT","1m",30))
@@ -90,7 +90,7 @@ print(fetchData("kraken","BTC/USDT","1m",30))
 
 # ## Funciones-Fecthc Order Book para los distintos apis
 
-# In[444]:
+# In[28]:
 
 
 def tim():
@@ -99,7 +99,7 @@ def tim():
 tim()
 
 
-# In[445]:
+# In[29]:
 
 
 def fetch_order_book_bitso(symbol,limit):
@@ -123,7 +123,7 @@ def fetch_order_book_bitso(symbol,limit):
     return dfk
 
 
-# In[446]:
+# In[30]:
 
 
 def fetch_order_book_ascendex(symbol,limit):
@@ -147,7 +147,7 @@ def fetch_order_book_ascendex(symbol,limit):
     return dfk
 
 
-# In[447]:
+# In[31]:
 
 
 def fetch_order_book_bitbay(symbol,limit):
@@ -171,7 +171,7 @@ def fetch_order_book_bitbay(symbol,limit):
     return dfk
 
 
-# In[448]:
+# In[32]:
 
 
 def fetch_order_book_bitbns(symbol,limit):
@@ -193,6 +193,30 @@ def fetch_order_book_bitbns(symbol,limit):
     
                        
     return dfk
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
