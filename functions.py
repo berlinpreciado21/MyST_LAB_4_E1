@@ -91,7 +91,7 @@ def tim():
 tim()
 
 
-# In[19]:
+# In[22]:
 
 
 def fetch_order_book_bitso(symbol,limit):
