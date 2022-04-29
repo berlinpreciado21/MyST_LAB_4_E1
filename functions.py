@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[7]:
 
 
 import ccxt
@@ -14,7 +14,7 @@ import time
 
 # ## Fetch Ohlcv
 
-# In[ ]:
+# In[8]:
 
 
 def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
@@ -82,7 +82,7 @@ def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
 
 # ## Funciones-Fecthc Order Book para los distintos apis
 
-# In[ ]:
+# In[9]:
 
 
 def tim():
@@ -91,7 +91,7 @@ def tim():
 tim()
 
 
-# In[ ]:
+# In[10]:
 
 
 def fetch_order_book_bitso(symbol,limit):
@@ -102,6 +102,7 @@ def fetch_order_book_bitso(symbol,limit):
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
     dfk["Exchange"]=exchange
+    dfk["Ticker"]=symbol
     dfk["Timestamp"]=bi_btc_ob_time
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
@@ -117,13 +118,7 @@ def fetch_order_book_bitso(symbol,limit):
     return dfk
 
 
-# In[ ]:
-
-
-print(fetch_order_book_bitso("BTC/USDT",30))
-
-
-# In[ ]:
+# In[11]:
 
 
 def fetch_order_book_ascendex(symbol,limit):
@@ -134,6 +129,7 @@ def fetch_order_book_ascendex(symbol,limit):
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
     dfk["Exchange"]=exchange
+    dfk["Ticker"]=symbol
     dfk["Timestamp"]=bi_btc_ob_time
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
@@ -148,7 +144,7 @@ def fetch_order_book_ascendex(symbol,limit):
     return dfk
 
 
-# In[ ]:
+# In[12]:
 
 
 def fetch_order_book_bitbay(symbol,limit):
@@ -159,6 +155,7 @@ def fetch_order_book_bitbay(symbol,limit):
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
     dfk["Exchange"]=exchange
+    dfk["Ticker"]=symbol
     dfk["Timestamp"]=bi_btc_ob_time
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
@@ -174,7 +171,7 @@ def fetch_order_book_bitbay(symbol,limit):
     return dfk
 
 
-# In[ ]:
+# In[13]:
 
 
 def fetch_order_book_bitbns(symbol,limit):
@@ -185,6 +182,7 @@ def fetch_order_book_bitbns(symbol,limit):
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
     dfk["Exchange"]=exchange
+    dfk["Ticker"]=symbol
     dfk["Timestamp"]=bi_btc_ob_time
     dfk['Vwap Ask'] =(np.cumsum(dfk.Ask*dfk.AVolume) / np.cumsum(dfk.AVolume))
     dfk['Vwap Bid'] =(np.cumsum(dfk.Bid*dfk.BVolume) / np.cumsum(dfk.BVolume))
@@ -197,4 +195,10 @@ def fetch_order_book_bitbns(symbol,limit):
     dfk["Roll Spread"]=(np.sqrt(-SA))*2
     
     return dfk
+
+
+# In[ ]:
+
+
+
 
