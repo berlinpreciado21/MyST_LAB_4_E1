@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
+# In[16]:
 
 
 import ccxt
@@ -14,7 +14,7 @@ import time
 
 # ## Fetch Ohlcv
 
-# In[8]:
+# In[17]:
 
 
 def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
@@ -82,7 +82,7 @@ def fetchData(exchange, symbol, timeframe, since="26-04-2022", limit=100):
 
 # ## Funciones-Fecthc Order Book para los distintos apis
 
-# In[9]:
+# In[18]:
 
 
 def tim():
@@ -91,7 +91,7 @@ def tim():
 tim()
 
 
-# In[10]:
+# In[19]:
 
 
 def fetch_order_book_bitso(symbol,limit):
@@ -101,6 +101,7 @@ def fetch_order_book_bitso(symbol,limit):
     bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
+    dfk['Index'] = dfk.index 
     dfk["Exchange"]=exchange
     dfk["Ticker"]=symbol
     dfk["Timestamp"]=bi_btc_ob_time
@@ -118,7 +119,7 @@ def fetch_order_book_bitso(symbol,limit):
     return dfk
 
 
-# In[11]:
+# In[20]:
 
 
 def fetch_order_book_ascendex(symbol,limit):
@@ -128,6 +129,7 @@ def fetch_order_book_ascendex(symbol,limit):
     bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
+    dfk['Index'] = dfk.index 
     dfk["Exchange"]=exchange
     dfk["Ticker"]=symbol
     dfk["Timestamp"]=bi_btc_ob_time
@@ -144,7 +146,7 @@ def fetch_order_book_ascendex(symbol,limit):
     return dfk
 
 
-# In[12]:
+# In[21]:
 
 
 def fetch_order_book_bitbay(symbol,limit):
@@ -154,6 +156,7 @@ def fetch_order_book_bitbay(symbol,limit):
     bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
+    dfk['Index'] = dfk.index 
     dfk["Exchange"]=exchange
     dfk["Ticker"]=symbol
     dfk["Timestamp"]=bi_btc_ob_time
@@ -181,6 +184,7 @@ def fetch_order_book_bitbns(symbol,limit):
     bi_btc_ob_ask=pd.DataFrame(bi_btc_ob["asks"],columns=["Ask","AVolume"])
     bi_btc_ob_bid=pd.DataFrame(bi_btc_ob["bids"],columns=["Bid","BVolume"])
     dfk = pd.concat([bi_btc_ob_ask,  bi_btc_ob_bid],axis=1)
+    dfk['Index'] = dfk.index 
     dfk["Exchange"]=exchange
     dfk["Ticker"]=symbol
     dfk["Timestamp"]=bi_btc_ob_time
